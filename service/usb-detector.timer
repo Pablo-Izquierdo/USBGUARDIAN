@@ -1,0 +1,9 @@
+[Unit]
+Description=Execute usb-detector every 5 seconds
+
+[Timer]
+OnUnitActiveSec=5s
+AccuracySec=1us
+
+[Install]
+WantedBy=timers.target
