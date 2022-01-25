@@ -1,0 +1,6 @@
+rm /etc/udev/rules.d/80-execute-script.rules
+rm /etc/udev/rules.d/81-disable-usb-devices.rules
+rm /usr/local/lib/usb_default
+rm /usr/local/lib/usb_unknown
+rm /usr/local/usbguardian.sh
+rm /usr/local/sbin/usb-detector.sh
