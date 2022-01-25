@@ -1,8 +1,9 @@
 #!/bin/bash
 
-FICHERO=./usb_default
+USBDEFAULT="/usr/local/lib/usb_default"
+USBUNKNOWN="/usr/local/lib/usb_unknown"
 
-if [ ! -f $FICHERO ]
+if [ ! -f $USBDEFAULT ]
 then
    echo "El fichero $FICHERO no existe"
    numknown=$(lsusb | wc -l)
@@ -11,11 +12,11 @@ then
         do
                 usbs=$(lsusb | cut -d":" -f2 | sed -n $I'p')
                 usbs1=$(lsusb | cut -d":" -f3 | sed -n $I'p')
-                echo $usbs:$usbs1 >> usb_default
+                echo $usbs:$usbs1 >> $USBDEFAULT
         done
 else
-   #echo "El fichero $FICHERO existe"
-   rm ./usb_unknown
+   #echo "El fichero $USBDEFAULT existe"
+   rm $USBUNKNOWN
 
    IFS=$'\n'
    my_array=( $(lsusb -v 2>>/tmp/errorgarbage.txt | egrep '([[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]]:[[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]]|bInterfaceClass|bInterfaceProtocol)' | egrep -A 2 '([[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]]:[[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]])') )
@@ -30,7 +31,7 @@ else
                 if [ $breakinglines -eq 0 ]; then
                         #Check if it is a default device and skip lines
                         id=$(echo "${my_array[$line]}" | egrep '([[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]]:[[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]])' | cut -d" " -f6)
-                        if [[ $(cat ./usb_default | grep $id 2>>/tmp/errorgarbage.txt | wc -l) -eq 0 ]];
+                        if [[ $(cat $USBDEFAULT | grep $id 2>>/tmp/errorgarbage.txt | wc -l) -eq 0 ]];
                         then
                                 #Check if the line has device ID
                                 if [ $(echo "${my_array[$line]}" | egrep '([[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]]:[[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]])') ];
@@ -50,7 +51,7 @@ else
                                                 usb1=$(echo "${my_array[$line]}"| tr -s " " | cut -d" " -f4)
                                                 usb1=${usb1//-/ }
                                                 usbs=$(echo $usb1-$usbs)
-                                                echo $usbs >> usb_unknown
+                                                echo $usbs >> $USBUNKNOWN
                                                 secondextraline=0
                                         else
 
@@ -79,11 +80,11 @@ fi
 
 ##DETECT DIFFERENT DEVICES
 
-Keyboard="$(cat usb_unknown 2>/dev/null | egrep '(-Keyboard|Keyboard-)' | wc -l)"
-Mouse="$(cat usb_unknown 2>/dev/null | egrep '(-Mouse|Mouse-)' | wc -l)"
-Storage="$(cat usb_unknown 2>/dev/null | egrep '(-Storage|Storage-)' | wc -l)"
-Audio="$(cat usb_unknown 2>/dev/null | egrep '(-Audio|Audio-)' | wc -l)"
-Hub="$(cat usb_unknown 2>/dev/null | egrep '(-Hub|Hub-)' | wc -l)"
+Keyboard="$(cat $USBUNKNOWN 2>/dev/null | egrep '(-Keyboard|Keyboard-)' | wc -l)"
+Mouse="$(cat $USBUNKNOWN 2>/dev/null | egrep '(-Mouse|Mouse-)' | wc -l)"
+Storage="$(cat $USBUNKNOWN 2>/dev/null | egrep '(-Storage|Storage-)' | wc -l)"
+Audio="$(cat $USBUNKNOWN 2>/dev/null | egrep '(-Audio|Audio-)' | wc -l)"
+Hub="$(cat $USBUNKNOWN 2>/dev/null | egrep '(-Hub|Hub-)' | wc -l)"
 
 #echo $Keyboard $Mouse $Storage $Audio $Hub
 
@@ -137,7 +138,7 @@ else
 fi
 
 known=$(($Keyboard+$Mouse+$Storage+$Audio+$Hub))
-devices="$(cat usb_unknown 2>/dev/null | wc -l)"
+devices="$(cat $USBUNKNOWN 2>/dev/null | wc -l)"
 unknown=$(($devices-$known))
 #echo $devices $known
 
