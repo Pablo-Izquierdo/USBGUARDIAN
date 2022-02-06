@@ -1,10 +1,10 @@
-Package: usb-guardian
+Package: usbguardian
 Priority: optional
 Section: usr/local
-Maintainer: Pablo Izquierdo
+Maintainer: Pablo Izquierdo González
 Architecture: all
-Version: 1.0
-Replaces:
+Version: 1.1
+Replaces: usbguardian-1.0.deb
 Depends:
-Description: Packet deb for usb-guardian
+Description: Packet deb for usbguardian
  It is a bash script and udev rules for unable usb devices and detect its drives to show if they really are flash memory device or a malicious usb flash memory.

@@ -1,6 +1,21 @@
-rm /etc/udev/rules.d/80-execute-script.rules
-rm /etc/udev/rules.d/81-disable-usb-devices.rules
-rm /usr/local/lib/usb_default
-rm /usr/local/lib/usb_unknown
-rm /usr/local/usbguardian.sh
-rm /usr/local/sbin/usb-detector.sh
+#!/bin/bash
+USBDEFAULT="/usr/local/lib/usb_default"
+USBUNKNOWN="/usr/local/lib/usb_unknown"
+
+#Remove usb_default configuration
+if [ -f $USBDEFAULT ]
+then
+	rm $USBDEFAULT
+fi
+
+#Remove usb_unknown configuration
+if [ -f $USBUNKNOWN ]
+then
+	rm $USBUNKNOWN
+fi
+
+#Recreate usr/local/sbin directory
+if [ ! -d "/usr/local/sbin/" ]
+then
+	mkdir /usr/local/sbin/
+fi
