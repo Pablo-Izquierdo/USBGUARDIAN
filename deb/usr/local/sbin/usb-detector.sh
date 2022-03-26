@@ -1,7 +1,7 @@
 #!/bin/bash
 
-USBDEFAULT="/usr/local/lib/usb_default"
-USBUNKNOWN="/usr/local/lib/usb_unknown"
+USBDEFAULT="/usr/local/lib/usbguardian/usb_default"
+USBUNKNOWN="/usr/local/lib/usbguardian/usb_unknown"
 
 if [ ! -f $USBDEFAULT ]
 then
