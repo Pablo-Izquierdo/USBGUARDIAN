@@ -15,7 +15,7 @@ done
 
 #Disable dhcpd.config
 interfaz=$( ip a | grep 2: | cut -d":" -f 2 | cut -d" " -f 2)
-echo "interfaz utilizada "$interfaz
+echo "Using interface "$interfaz
 
 interfaces_file=("\n" "auto lo" "iface lo inet loopback\n" "allow-hotplug $interfaz\n" "iface $interfaz inet static" 
 			"\taddress 192.168.1.100/24" "\tnetwork 192.168.1.0" "\tbroadcast 192.168.1.255" 
@@ -42,7 +42,7 @@ echo "Disabling dhcpcd.service"
 systemctl disable dhcpcd
 
 #Disabling Kermel Modules
-modulos=("ip_tables" "fixed" "uio_pdrv_genirq" "i2c_bcm2835" "snd_bcm2835" "bcm2835_v4l2" 
+modulos=("ip_tables" "fixed" "uio_pdrv_genirq" "i2c_bcm2835" "bcm2835_codec" "snd_bcm2835" "bcm2835_v4l2" 
 		"bcm2835_isp" "raspberrypi_hwmon" "vc_sm_cma" "vc4")
 BLACKLIST="/etc/modprobe.d/blacklist.conf"
 if [ ! -f $BLACKLIST ]
