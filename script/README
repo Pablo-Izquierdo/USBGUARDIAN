@@ -8,3 +8,7 @@ dpkg -i <debian package>
 systemctl disable getty@tty1
 
 sudo ./fastboot.sh
+
+git clone https://github.com/beralt/atinout.git
+	cd atinout
+	make
