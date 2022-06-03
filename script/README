@@ -1,0 +1,10 @@
+
+
+
+#### STEPS TO GET EVERYTHING PERFECTLY INSTALED  ####
+
+dpkg -i <debian package>
+
+systemctl disable getty@tty1
+
+sudo ./fastboot.sh

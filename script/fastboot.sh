@@ -4,19 +4,19 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/l
 
 servicios=("man-db" "sendmail" "systemd-timesyncd" "systemd-tmpfiles-setup" "systemd-update-utmp" "systemd-tmpfiles-setup-dev" "systemd-sysusers" "systemd-remount-fs" "systemd-fsck-root" "apt-daily")
 
-<<COMMENT
+#Disabling services
 for S in "${servicios[@]}"
 do
 	inactive=$(systemctl status $S | grep Active: | grep inactive)
 	#echo $S $inactive
 	echo "Desabling service "$S
-	#######systemctl status $S
+	systemctl disable $S
 done
 
 
 #Disable dhcpd.config
 interfaz=$( ip a | grep 2: | cut -d":" -f 2 | cut -d" " -f 2)
-echo $interfaz
+echo "interfaz utilizada "$interfaz
 
 interfaces_file=("\n" "auto lo" "iface lo inet loopback\n" "allow-hotplug $interfaz\n" "iface $interfaz inet static" 
 			"\taddress 192.168.1.100/24" "\tnetwork 192.168.1.0" "\tbroadcast 192.168.1.255" 
@@ -32,8 +32,7 @@ do
 
 done
 echo "Disabling dhcpcd.service"
-#########systemctl status dhcpcd
-COMMENT
+systemctl disable dhcpcd
 
 #Disabling Kermel Modules
 modulos=("ip_tables" "fixed" "uio_pdrv_genirq" "i2c_bcm2835" "snd_bcm2835" "bcm2835_v4l2" 
@@ -50,7 +49,6 @@ do
 	echo -e $M >> $BLACKLIST
 done
 
-<<COMMENT
 #Config /boot/config.txt
 config=$(cat /boot/config.txt)
 cambios=("disable-splash=1" "dtoverlay=disable-bt" "boot_delay=0")
@@ -105,4 +103,3 @@ then
 	fi
 	echo "Added quite to /coot/cmdline.txt"
 fi
-COMMENT
