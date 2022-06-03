@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games:"
-
-servicios=("man-db" "sendmail" "systemd-timesyncd" "systemd-tmpfiles-setup" "systemd-update-utmp" "systemd-tmpfiles-setup-dev" "systemd-sysusers" "systemd-remount-fs" "systemd-fsck-root" "apt-daily" "keyboard-setup")
+servicios=("man-db" "sendmail" "systemd-timesyncd" "systemd-tmpfiles-setup" "systemd-update-utmp" 
+		"systemd-tmpfiles-setup-dev" "systemd-sysusers" "systemd-remount-fs" "systemd-fsck-root" 
+		"apt-daily" "keyboard-setup" "wpa_supplicant" "avahi-daemon" "rng-tools-debian" "dphys-swapfile")
 
 #Disabling services
 for S in "${servicios[@]}"
@@ -43,20 +43,14 @@ systemctl disable dhcpcd
 
 #Disabling Kermel Modules
 modulos=("ip_tables" "fixed" "uio_pdrv_genirq" "i2c_bcm2835" "bcm2835_codec" "snd_bcm2835" "bcm2835_v4l2" 
-		"bcm2835_isp" "raspberrypi_hwmon" "vc_sm_cma" "vc4")
+		"bcm2835_isp" "raspberrypi_hwmon" "vc_sm_cma" "vc4" "drm")
 BLACKLIST="/etc/modprobe.d/blacklist.conf"
-if [ ! -f $BLACKLIST ]
-then
-	echo "" >> $BLACKLIST
-fi
 
 for M in "${modulos[@]}"
 do
 	##AÑADIR MODULOS A /ETC/MODPROBE.D/BLACKLIST.CONF
-	empty=$(echo $BLACKLIST | grep "$M")
-	if [ ! -z "empty" ];
-	then
-		echo -e "blacklist "$M >> $BLACKLIST
+	if ! grep -q "$M" $BLACKLIST 2> /dev/null; then
+		echo "blacklist "$M >> $BLACKLIST
 	fi
 done
 

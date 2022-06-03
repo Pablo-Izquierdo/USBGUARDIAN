@@ -11,10 +11,10 @@ gpio.setup(19, gpio.OUT)
 gpio.setup(21, gpio.OUT)
 gpio.setup(23, gpio.OUT)
 
+luces = ["green", "yellow", "red", "all"]
 
 ##Optencion de parametros de entrada
 def main():
-	luces = ["green", "yellow", "red", "all"]
 	texto = None
 	accion = None
 	# Comprobación de seguridad, ejecutar sólo si se reciben 2
@@ -44,13 +44,13 @@ def main():
 		return -1
 
 def encender(texto):
-	if texto == "green":
+	if texto == luces[0]:
 		gpio.output(13, True)
 		gpio.output(15, True)
-	elif texto == "yellow":
+	elif texto == luces[1]:
 		gpio.output(11, True)
 		gpio.output(23, True)
-	elif texto == "red":
+	elif texto == luces[2]:
 		gpio.output(19, True)
 		gpio.output(21, True)
 	else:
@@ -63,13 +63,13 @@ def encender(texto):
 	return
 
 def apagar(texto):
-	if texto == "green":
+	if texto == luces[0]:
 		gpio.output(13, False)
 		gpio.output(15, False)
-	elif texto == "yellow":
+	elif texto == luces[1]:
 		gpio.output(11, False)
 		gpio.output(23, False)
-	elif texto == "red":
+	elif texto == luces[2]:
 		gpio.output(19, False)
 		gpio.output(21, False)
 	else:
