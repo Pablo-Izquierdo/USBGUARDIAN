@@ -2,7 +2,7 @@
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games:"
 
-servicios=("man-db" "sendmail" "systemd-timesyncd" "systemd-tmpfiles-setup" "systemd-update-utmp" "systemd-tmpfiles-setup-dev" "systemd-sysusers" "systemd-remount-fs" "systemd-fsck-root" "apt-daily")
+servicios=("man-db" "sendmail" "systemd-timesyncd" "systemd-tmpfiles-setup" "systemd-update-utmp" "systemd-tmpfiles-setup-dev" "systemd-sysusers" "systemd-remount-fs" "systemd-fsck-root" "apt-daily" "keyboard-setup")
 
 #Disabling services
 for S in "${servicios[@]}"
