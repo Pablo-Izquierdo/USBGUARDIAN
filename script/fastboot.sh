@@ -9,7 +9,7 @@ for S in "${servicios[@]}"
 do
 	inactive=$(systemctl status $S | grep Active: | grep inactive)
 	#echo $S $inactive
-	echo "Desabling service "$S ###SOLO SI ESTA DISABLE
+	echo "Desabling service "$S
 	systemctl disable $S
 done
 
@@ -29,10 +29,8 @@ do
 	else
 		check=$(echo $I)
 	fi
-	#echo $check
-	empty=$(cat /etc/network/interfaces | grep "$check")
-	#echo $empty
-	if [ -z "empty" ];
+	empty=$(grep -c "$check" /etc/network/interfaces);
+	if [[ $empty -eq 0 ]];
 	then
 		echo -e $I >> /etc/network/interfaces
 	fi
@@ -49,7 +47,9 @@ BLACKLIST="/etc/modprobe.d/blacklist.conf"
 for M in "${modulos[@]}"
 do
 	##AÑADIR MODULOS A /ETC/MODPROBE.D/BLACKLIST.CONF
-	if ! grep -q "$M" $BLACKLIST 2> /dev/null; then
+	empty=$(grep -c "$M" $BLACKLIST 2> /dev/null)
+	if [[ $empty -eq 0 ]];
+	then
 		echo "blacklist "$M >> $BLACKLIST
 	fi
 done
