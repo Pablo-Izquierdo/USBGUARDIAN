@@ -2,7 +2,8 @@
 USBDEFAULT="/usr/local/lib/usbguardian/usb_default"
 USBUNKNOWN="/usr/local/lib/usbguardian/usb_unknown"
 USBFOLDER="/usr/local/lib/usbguardian/"
-
+ATINPUT="/usr/local/lib/usbguardian/atinout-input.txt"
+ATOUTPUT="/usr/local/lib/usbguardian/atinout-output.txt"
 #Remove usb_default configuration
 if [ -f $USBDEFAULT ]
 then
@@ -15,5 +16,21 @@ then
 	rm $USBUNKNOWN
 fi
 
-rm -r $USBFOLDER
+#Remove AT input data configuration
+if [ -f $ATINPUT ]
+then
+        rm $ATIINPUT
+fi
 
+#Remove AT output data configuration
+if [ -f $ATOUTPUT ]
+then
+        rm $ATOUTPUT
+fi
+
+if [ -d $USBFOLDER ]
+then
+	rm -r $USBFOLDER
+fi
+
+systemctl enable getty@tty1

@@ -1,0 +1,19 @@
+
+# Post-Instalation
+LIB="/usr/local/lib/usbguardian/"
+SBIN="/usr/local/sbin/usbguardian/"
+
+#Compile ATINOUT 0.9.1
+make -C $SBIN"atinout/"
+
+#Disable getty tty1 for more security
+systemctl disable getty@tty1
+
+#Create data for at command
+mkdir $LIB
+echo AT > $LIB"atinout-input.txt"
+
+#Recargamos Demonios 
+systemctl daemon-reload
+systemctl enable encender-luces
+systemctl enable apagar-luces
