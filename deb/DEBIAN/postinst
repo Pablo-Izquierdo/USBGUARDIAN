@@ -2,6 +2,7 @@
 # Post-Instalation
 LIB="/usr/local/lib/usbguardian/"
 SBIN="/usr/local/sbin/usbguardian/"
+mkdir $LIB
 
 #Compile ATINOUT 0.9.1
 make -C $SBIN"atinout/"
