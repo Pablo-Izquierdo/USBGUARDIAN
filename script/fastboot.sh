@@ -2,7 +2,7 @@
 
 servicios=("man-db" "sendmail" "systemd-timesyncd" "systemd-tmpfiles-setup" "systemd-update-utmp" 
 		"systemd-tmpfiles-setup-dev" "systemd-sysusers" "systemd-remount-fs" "systemd-fsck-root" 
-		"apt-daily" "keyboard-setup" "wpa_supplicant" "avahi-daemon" "rng-tools-debian" "dphys-swapfile")
+		"apt-daily" "keyboard-setup" "wpa_supplicant" "avahi-daemon" "dphys-swapfile")
 
 #Disabling services
 for S in "${servicios[@]}"
