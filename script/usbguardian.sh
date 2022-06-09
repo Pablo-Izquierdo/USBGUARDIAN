@@ -2,6 +2,8 @@
 
 USBDEFAULT="/usr/local/lib/usbguardian/usb_default"
 USBUNKNOWN="/usr/local/lib/usbguardian/usb_unknown"
+DIR="/usr/local/lib/usbguardian/"
+ESTADOPASADO=0
 
 if [ ! -f $USBDEFAULT ]
 then
@@ -16,6 +18,10 @@ then
         done
 else
    #echo "El fichero $USBDEFAULT existe"
+   if [[ -f $USBUNKNOWN ]]; then
+	#echo "dispositivo conectado anteriormente" >>/dev/tty1
+	ESTADOPASADO=1 #Represents the state of the usb device, 1 -> was conected, 0 -> not conected
+   fi
    rm $USBUNKNOWN
 
    IFS=$'\n'
@@ -150,17 +156,17 @@ else
 fi
 
 USBUNKNOWN="/usr/local/lib/usbguardian/usb_unknown"
-if [ -f $USBUNKNOWN ] # if exist Unkown -> there is usb conected so check filters
+if [ -f "$USBUNKNOWN" ] && [ $ESTADOPASADO -eq 0 ] # if exist Unkown -> there is usb conected so check filters
 then
 
-	echo existe
+	echo "conectado" #>>/dev/tty1
         python /usr/local/sbin/usbguardian/driverGpio.py all 0
         python /usr/local/sbin/usbguardian/driverGpio.py yellow 1
         #Crear lista de puertos vulnerables
-        ListaPuertos=$(ls /dev/ | grep ttyUSB)
+	ListaPuertos=$(ls /dev/ | grep ttyUSB)
         Add=$(ls /dev/ | grep ttyACM)
         ListaPuertos+=$Add
-        #echo $ListaPuertos
+#        echo $ListaPuertos >>/dev/tty1
         ROJO=0
 
         #bucle que comprueba cada puerto
@@ -171,17 +177,17 @@ then
                 case $MODEM_OUTPUT
                 in
                         *OK*)
-#                               echo "Hurray, modem is up and running :)"
+#                               echo ":)"
                                 ;;
                         *)
                                 ROJO=$((ROJO + 1))
-#                               echo "Oh no! Something is not working :("
+#                               echo "Oh no! :("
                                 ;;
                 esac
 
         done
 
-        #echo $ROJO
+        #echo "$ROJO" >>/dev/tty1
         sleep 1
         python /usr/local/sbin/usbguardian/driverGpio.py yellow 0
         if [ $ROJO -eq 0 ]
@@ -194,9 +200,13 @@ then
         fi
 else
 
-	echo no existe
-        python /usr/local/sbin/usbguardian/driverGpio.py all 1
-        sleep 1
-        python /usr/local/sbin/usbguardian/driverGpio.py all 0
-
+	if [ ! -f "$USBUNKNOWN" ] && [ $ESTADOPASADO -eq 1 ]
+	then
+		echo "desconectado" #>>/dev/tty1
+        	python /usr/local/sbin/usbguardian/driverGpio.py all 1
+        	sleep 1
+        	python /usr/local/sbin/usbguardian/driverGpio.py all 0
+	else
+		echo "accion desconocida" #>>/dev/tty1
+	fi
 fi
