@@ -25,3 +25,8 @@ done
 systemctl daemon-reload
 systemctl enable encender-luces
 systemctl enable apagar-luces
+
+#Fastboot
+
+sudo $SBIN"fastboot.sh"
+
