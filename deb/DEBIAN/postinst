@@ -1,18 +1,25 @@
-
+#!/bin/bash
 # Post-Instalation
 LIB="/usr/local/lib/usbguardian/"
 SBIN="/usr/local/sbin/usbguardian/"
-mkdir $LIB
+#mkdir $LIB
 
 #Compile ATINOUT 0.9.1
 make -C $SBIN"atinout/"
 
 #Disable getty tty1 for more security
-systemctl disable getty@tty1
+ListaPuertos=$(ls /dev/ | egrep tty'[0-9]{1,4}')
+echo $ListaPuertos
+for I in $ListaPuertos
+do
+     echo "Disabling getty#"$I
+     systemctl disable getty@$I
+
+done
 
 #Create data for at command
-mkdir $LIB
-echo AT > $LIB"atinout-input.txt"
+#mkdir $LIB
+#echo AT > $LIB"atinout-input.txt"
 
 #Recargamos Demonios 
 systemctl daemon-reload

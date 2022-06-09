@@ -5,7 +5,7 @@ After=systemd-user-sessions.service
 [Service]
 Type=oneshot
 User=root
-WorkingDirectory=/usr/local/sbin/
+WorkingDirectory=/usr/local/sbin/usbguardian/
 ExecStart=/usr/bin/python3 driverGpio.py all 0
 
 [Install]

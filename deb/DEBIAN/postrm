@@ -1,9 +1,12 @@
 #!/bin/bash
 USBDEFAULT="/usr/local/lib/usbguardian/usb_default"
 USBUNKNOWN="/usr/local/lib/usbguardian/usb_unknown"
-USBFOLDER="/usr/local/lib/usbguardian/"
+USBLIBFOLDER="/usr/local/lib/usbguardian/"
+USBSBINFOLDER="/usr/local/sbin/usbguardian/"
 ATINPUT="/usr/local/lib/usbguardian/atinout-input.txt"
 ATOUTPUT="/usr/local/lib/usbguardian/atinout-output.txt"
+ATIOUTEXE="/usr/local/sbin/usbguardian/atinout/atinout"
+ATINOUTFOLDER="/usr/local/sbin/usbguardian/atinout"
 #Remove usb_default configuration
 if [ -f $USBDEFAULT ]
 then
@@ -28,9 +31,34 @@ then
         rm $ATOUTPUT
 fi
 
-if [ -d $USBFOLDER ]
+if [ -d $USBLIBFOLDER ]
 then
-	rm -r $USBFOLDER
+	rm -r $USBLIBFOLDER
 fi
 
-systemctl enable getty@tty1
+#Remove Atinout executable and folder
+
+if [ -e $ATINOUTEXE ]
+then
+        rm  $ATINOUTEXE
+fi
+
+if [ -d $ATINOUTFOLDER ]
+then
+        rm -r $ATINOUTFOLDER
+fi
+
+#Remove sbin usbguardian folder
+if [ -d $USBSBINFOLDER ]
+then
+	rm -r $USBSBINFOLDER
+fi
+
+
+ListaPuertos=$(ls /dev/ | egrep tty'[0-9]{1,4}')
+for I in $ListaPuertos
+do
+     echo "Enabling getty#"$I
+     systemctl enable getty@$I
+
+done
