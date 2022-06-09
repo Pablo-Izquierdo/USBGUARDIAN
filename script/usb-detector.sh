@@ -149,4 +149,54 @@ else
         echo "Others false" >>/dev/tty1
 fi
 
+USBUNKNOWN="/usr/local/lib/usbguardian/usb_unknown"
+if [ -f $USBUNKNOWN ] # if exist Unkown -> there is usb conected so check filters
+then
 
+	echo existe
+        python /usr/local/sbin/usbguardian/driverGpio.py all 0
+        python /usr/local/sbin/usbguardian/driverGpio.py yellow 1
+        #Crear lista de puertos vulnerables
+        ListaPuertos=$(ls /dev/ | grep ttyUSB)
+        Add=$(ls /dev/ | grep ttyACM)
+        ListaPuertos+=$Add
+        #echo $ListaPuertos
+        ROJO=0
+
+        #bucle que comprueba cada puerto
+        for I in $ListaPuertos
+        do
+                echo $I
+	        MODEM_OUTPUT=`timeout 5s atinout /usr/local/lib/usbguardian/atinout-input.txt $MODEM_DEVICE /usr/local/lib/usb/guardian/atinout-output.txt`
+                case $MODEM_OUTPUT
+                in
+                        *OK*)
+#                               echo "Hurray, modem is up and running :)"
+                                ;;
+                        *)
+                                ROJO=$((ROJO + 1))
+#                               echo "Oh no! Something is not working :("
+                                ;;
+                esac
+
+        done
+
+        #echo $ROJO
+        sleep 1
+        python /usr/local/sbin/usbguardian/driverGpio.py yellow 0
+        if [ $ROJO -eq 0 ]
+        then
+                python /usr/local/sbin/usbguardian/driverGpio.py green 1
+
+        else
+                python /usr/local/sbin/usbguardian/driverGpio.py red 1
+
+        fi
+else
+
+	echo no existe
+        python /usr/local/sbin/usbguardian/driverGpio.py all 1
+        sleep 1
+        python /usr/local/sbin/usbguardian/driverGpio.py all 0
+
+fi
