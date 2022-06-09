@@ -9,7 +9,7 @@ make -C $SBIN"atinout/"
 
 #Disable getty tty1 for more security
 ListaPuertos=$(ls /dev/ | egrep tty'[0-9]{1,4}')
-echo $ListaPuertos
+echo "Disabling loggin on ttys"
 for I in $ListaPuertos
 do
      echo "Disabling getty#"$I
@@ -21,7 +21,7 @@ done
 #mkdir $LIB
 #echo AT > $LIB"atinout-input.txt"
 
-#Recargamos Demonios 
+#Recargamos Demonios
 systemctl daemon-reload
 systemctl enable encender-luces
 systemctl enable apagar-luces
