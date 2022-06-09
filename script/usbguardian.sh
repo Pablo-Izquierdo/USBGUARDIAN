@@ -173,7 +173,7 @@ then
         for I in $ListaPuertos
         do
                 echo $I
-	        MODEM_OUTPUT=`timeout 5s atinout /usr/local/lib/usbguardian/atinout-input.txt $MODEM_DEVICE /usr/local/lib/usb/guardian/atinout-output.txt`
+	        MODEM_OUTPUT=`timeout 5s atinout /usr/local/lib/usbguardian/atinout-input.txt $MODEM_DEVICE -`
                 case $MODEM_OUTPUT
                 in
                         *OK*)
