@@ -15,4 +15,7 @@ sudo dpkg -i usbguardian-1.2.deb
 sudo dpkg -r usbguardian
 
 ##CopyRight
-![image](https://user-images.githubusercontent.com/80353319/195975837-fd84bdc2-1565-4557-890b-47cd60703ced.png)
+
+
+![Atribución-NoComercial-CompartirIgual-CC-BY-NC-SA-4 0-300x107](https://user-images.githubusercontent.com/80353319/195975894-547aa274-87d1-4203-b76c-81b7245defdd.jpg)
+
