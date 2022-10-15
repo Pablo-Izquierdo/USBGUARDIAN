@@ -7,7 +7,7 @@ This tool is used to check if a usb memory is prepare to do some kind of attack,
 
 ## Instalation
 
-git clone https://gitlab.com/Pablo-Izquierdo/usbguardian.git
+git clone https://github.com/Pablo-Izquierdo/USBGUARDIAN.git
 
 sudo dpkg -i usbguardian-1.2.deb
 
