@@ -13,3 +13,6 @@ sudo dpkg -i usbguardian-1.2.deb
 
 ## Remove
 sudo dpkg -r usbguardian
+
+##CopyRight
+![image](https://user-images.githubusercontent.com/80353319/195975837-fd84bdc2-1565-4557-890b-47cd60703ced.png)
