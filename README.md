@@ -16,4 +16,4 @@ sudo dpkg -r usbguardian
 
 ## CopyRight
 
-https://web.unican.es/ucabierta/PublishingImages/91.png
+![by-nc-nd](https://user-images.githubusercontent.com/80353319/197803274-a413847f-7625-4ed9-8f69-68a1f5fb17ea.png)
