@@ -14,7 +14,7 @@ sudo dpkg -i usbguardian-1.2.deb
 ## Remove
 sudo dpkg -r usbguardian
 
-## TFG PUBLICATION
+## TFG Publication
 https://repositorio.unican.es/xmlui/handle/10902/25843
 
 ## CopyRight
